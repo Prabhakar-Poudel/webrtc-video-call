@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import '../style/component/local-video.css';
 
-export default function LocalVideo({ mute }) {
+export default function LocalVideo({ mute, peerConnection }) {
 
-  let localVideo = useRef(null);
+  const localVideo = useRef(null);
+  let localStream;
 
   const mediaStreamConstraints = {
     audio: true,
@@ -12,9 +13,13 @@ export default function LocalVideo({ mute }) {
 
   const gotLocalMediaStream = mediaStream => {
     localVideo.current.srcObject = mediaStream;
+    mediaStream.getTracks().forEach(track => {
+      peerConnection.addTrack(track, mediaStream);
+    });
   };
 
   const handleLocalMediaStreamError = error => {
+    console.log(error)
     alert('Video loading failed. Make sure you allowed cameera and microphone access.')
   };
 
