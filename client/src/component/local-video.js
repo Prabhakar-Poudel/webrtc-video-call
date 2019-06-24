@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import '../style/component/local-video.css';
 
-export default function LocalVideo({ mute, peerConnection }) {
+export default function LocalVideo({ mute, onStreamReceived }) {
 
   const localVideo = useRef(null);
-  let localStream;
 
   const mediaStreamConstraints = {
     audio: true,
@@ -13,9 +12,7 @@ export default function LocalVideo({ mute, peerConnection }) {
 
   const gotLocalMediaStream = mediaStream => {
     localVideo.current.srcObject = mediaStream;
-    mediaStream.getTracks().forEach(track => {
-      peerConnection.addTrack(track, mediaStream);
-    });
+    onStreamReceived(mediaStream);
   };
 
   const handleLocalMediaStreamError = error => {

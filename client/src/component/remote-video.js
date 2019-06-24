@@ -1,16 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import '../style/component/remote-video.css';
 
-export default function RemoteVideo({ peerConnection }) {
+export default function RemoteVideo({ src }) {
 
   const remoteVideo = useRef(null);
-
-  const gotRemoteMediaStream = ({ stream }) => {
-    remoteVideo.current.srcObject = stream;
-  };
-
-  // TODO: looks like a loop
-  peerConnection.ontrack = gotRemoteMediaStream;
+  
+  useEffect(() => {
+    console.log("inside video remote comp")
+    remoteVideo.current.srcObject = src;
+  }, [src])
 
   return (
     <video id="remote-video" ref={remoteVideo} autoPlay playsInline></video>

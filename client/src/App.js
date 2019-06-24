@@ -8,7 +8,7 @@ function App() {
     <Router>
       <div className="App">
         <Route path='/' exact component={Home} />
-        <Route path="/chat" exact component={VideoScreen} />
+        <Route path="/chat/:id" exact component={VideoScreen} />
       </div>
     </Router>
   );
